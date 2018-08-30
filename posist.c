@@ -89,6 +89,36 @@ void decrypt(char password[],int hashvalue)
         password[i] = password[i] + hashvalue;
     }
 }
+// this function finds out all the root to leaf paths
+void printPathsRecur(Node* node, int path[], int pathLen,
+										int max, int& f)
+{
+	if (node == NULL)
+		return;
+
+	// append this node to the path array
+	path[pathLen] = node->data;
+	pathLen++;
+
+	// If it's a leaf, so print the path that led to here
+	if (node->left == NULL && node->right == NULL) {
+
+		// print only one path which is equal to the
+		// height of the tree.
+		if (pathLen == max && (f == 0 || f == 1)) {
+			printArray(path, pathLen, f);
+			f = 2;
+		}
+	}
+
+	else {
+
+		// otherwise try both subtrees
+		printPathsRecur(node->left, path, pathLen, max, f);
+		printPathsRecur(node->right, path, pathLen, max, f);
+	}
+}
+
 
 
 
